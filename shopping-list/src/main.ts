@@ -61,7 +61,7 @@ function addItemToDOM(item) {
   itemList.appendChild(li);
 }
 
-function createButton(classes) {
+function createButton(classes : string) {
   const button = document.createElement("button");
   button.className = classes;
   const icon = createIcon("fa-solid fa-xmark");
@@ -69,7 +69,7 @@ function createButton(classes) {
   return button;
 }
 
-function createIcon(classes) {
+function createIcon(classes : string) {
   const icon = document.createElement("i");
   icon.className = classes;
   return icon;

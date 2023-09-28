@@ -12,7 +12,7 @@ function displayItems() {
   checkUI();
 }
 
-function onAddItemSubmit(e) {
+function onAddItemSubmit(e: HTMLFormElement) {
   e.preventDefault();
 
   const newItem = itemInput.value;
@@ -27,9 +27,9 @@ function onAddItemSubmit(e) {
   if (isEditMode) {
     const itemToEdit = itemList.querySelector(".edit-mode");
 
-    removeItemFromStorage(itemToEdit.textContent);
-    itemToEdit.classList.remove("edit-mode");
-    itemToEdit.remove();
+    removeItemFromStorage(itemToEdit?.textContent);
+    itemToEdit?.classList.remove("edit-mode");
+    itemToEdit?.remove();
     isEditMode = false;
   } else {
     if (checkIfItemExists(newItem)) {
@@ -49,7 +49,7 @@ function onAddItemSubmit(e) {
   itemInput.value = "";
 }
 
-function addItemToDOM(item) {
+function addItemToDOM(item: string) {
   // Create list item
   const li = document.createElement("li");
   li.appendChild(document.createTextNode(item));
@@ -61,7 +61,7 @@ function addItemToDOM(item) {
   itemList.appendChild(li);
 }
 
-function createButton(classes : string) {
+function createButton(classes: string) {
   const button = document.createElement("button");
   button.className = classes;
   const icon = createIcon("fa-solid fa-xmark");
@@ -69,13 +69,13 @@ function createButton(classes : string) {
   return button;
 }
 
-function createIcon(classes : string) {
+function createIcon(classes: string) {
   const icon = document.createElement("i");
   icon.className = classes;
   return icon;
 }
 
-function addItemToStorage(item) {
+function addItemToStorage(item: string) {
   const itemsFromStorage = getItemsFromStorage();
 
   // Add new item to array
@@ -105,12 +105,12 @@ function onClickItem(e) {
   }
 }
 
-function checkIfItemExists(item) {
+function checkIfItemExists(item: string) {
   const itemsFromStorage = getItemsFromStorage();
   return itemsFromStorage.includes(item);
 }
 
-function setItemToEdit(item) {
+function setItemToEdit(item: HTMLUListElement) {
   isEditMode = true;
 
   itemList
@@ -135,11 +135,11 @@ function removeItem(item) {
   }
 }
 
-function removeItemFromStorage(item) {
+function removeItemFromStorage(item: string) {
   let itemsFromStorage = getItemsFromStorage();
 
   // Filter out item to be removed
-  itemsFromStorage = itemsFromStorage.filter((i) => i !== item);
+  itemsFromStorage = itemsFromStorage.filter((i: string) => i !== item);
 
   // Re-set to localstorage
   localStorage.setItem("items", JSON.stringify(itemsFromStorage));

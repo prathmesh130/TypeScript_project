@@ -8,11 +8,11 @@ let isEditMode = false;
 
 function displayItems() {
   const itemsFromStorage = getItemsFromStorage();
-  itemsFromStorage.forEach((item) => addItemToDOM(item));
+  itemsFromStorage.forEach((item: string) => addItemToDOM(item));
   checkUI();
 }
 
-function onAddItemSubmit(e: HTMLFormElement) {
+function onAddItemSubmit(e: Event) {
   e.preventDefault();
 
   const newItem = itemInput.value;
@@ -27,7 +27,7 @@ function onAddItemSubmit(e: HTMLFormElement) {
   if (isEditMode) {
     const itemToEdit = itemList.querySelector(".edit-mode");
 
-    removeItemFromStorage(itemToEdit?.textContent);
+    removeItemFromStorage(itemToEdit?.textContent || "");
     itemToEdit?.classList.remove("edit-mode");
     itemToEdit?.remove();
     isEditMode = false;
@@ -91,13 +91,13 @@ function getItemsFromStorage() {
   if (localStorage.getItem("items") === null) {
     itemsFromStorage = [];
   } else {
-    itemsFromStorage = JSON.parse(localStorage.getItem("items"));
+    itemsFromStorage = JSON.parse(localStorage.getItem("items") || "");
   }
 
   return itemsFromStorage;
 }
 
-function onClickItem(e : Event) {
+function onClickItem(e: any) {
   if (e.target.parentElement.classList.contains("remove-item")) {
     removeItem(e.target.parentElement.parentElement);
   } else {
@@ -120,10 +120,10 @@ function setItemToEdit(item: HTMLUListElement) {
   item.classList.add("edit-mode");
   formBtn.innerHTML = '<i class="fa-solid fa-pen"></i>   Update Item';
   formBtn.style.backgroundColor = "#228B22";
-  itemInput.value = item.textContent;
+  itemInput.value = item.textContent || "";
 }
 
-function removeItem(item) {
+function removeItem(item: { remove: () => void; textContent: string }) {
   if (confirm("Are you sure?")) {
     // Remove item from DOM
     item.remove();
@@ -149,20 +149,24 @@ function clearItems() {
   while (itemList.firstChild) {
     itemList.removeChild(itemList.firstChild);
   }
-
   // Clear from localStorage
   localStorage.removeItem("items");
-
   checkUI();
 }
 
-function filterItems(e) {
+function filterItems(e: Event) {
   const items = itemList.querySelectorAll("li");
-  const text = e.target.value.toLowerCase();
+  const { target } = e;
+  let text = "";
+  if (target) {
+    text = (target as HTMLInputElement).value.toLowerCase();
+  }
 
   items.forEach((item) => {
-    const itemName = item.firstChild.textContent.toLowerCase();
-
+    let itemName: string = "";
+    if (item.firstChild && item.firstChild.textContent) {
+      itemName = item.firstChild.textContent.toLowerCase();
+    }
     if (itemName.indexOf(text) != -1) {
       item.style.display = "flex";
     } else {

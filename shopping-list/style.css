@@ -89,15 +89,19 @@ header h1 {
   width: 100%;
   font-size: 16px;
   background-color: transparent;
-  color: #333;
+  color: #333333;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px 20px;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-transform: uppercase;
 }
 
 .btn-clear:hover {
-  background-color: #f1f1f1;
+  background-color: rgb(255, 47, 0);
+  letter-spacing: 0.1rem;
+  color: #ccc;
 }
 
 .text-red {
@@ -122,6 +126,12 @@ header h1 {
   margin: 0 5px 20px;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+
+.items li:hover {
+  background-color: rgb(201, 201, 201);
+  transform: scale(1.05);
 }
 
 @media (max-width: 500px) {
